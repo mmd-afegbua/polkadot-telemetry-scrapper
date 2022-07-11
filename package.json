@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "express": "^4.18.1",
+    "prom-client": "^14.0.1",
+    "websocket": "^1.0.34",
+    "ws": "^8.7.0"
+  }
+}
