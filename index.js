@@ -15,7 +15,7 @@ const pubTimeGuage = new client.Gauge({
 register.registerMetric(pubTimeGuage)
 
 
-let chain = '0xdd954cbf4000542ef1a15bca509cd89684330bee5e23766c527cdb0d7275e9c2';
+let chain = '0x91b171bb158e2d3848fa23a9f1c25182fb8e20313b2c1eb49219da7a70ce90c3';
 let socket = new WebSocket("wss://feed.telemetry.polkadot.io/feed");
 socket.binaryType = 'arraybuffer';
 const decoder = new TextDecoder('utf-8');
