@@ -6,13 +6,21 @@ const register = new client.Registry();
 
 
 
-const pubTimeGuage = new client.Gauge({
+const blockTimeGauge = new client.Gauge({
     name :"node_publishing_time",
     help :"Gauge: Time (seconds) it takes to publish block",
     labelNames: ["pubtime"],
 })
 
-register.registerMetric(pubTimeGuage)
+register.registerMetric(blockTimeGauge)
+
+const blockHeightGauge = new client.Gauge({
+    name :"node_chain_height",
+    help :"Height of the block",
+    labelNames: ["height"]
+})
+
+register.registerMetric(blockHeightGauge)
 
 
 let chain = '0x91b171bb158e2d3848fa23a9f1c25182fb8e20313b2c1eb49219da7a70ce90c3';
@@ -65,9 +73,11 @@ function WebSocketTest() {
                     .forEach(message => {
                         if (message.action == ACTIONS.ImportedBlock) {
                             const nodeInfo = message.payload[1];
-                            const pubTime = nodeInfo[2];
+                            const blockHeight = nodeInfo[0];
+                            const blockTime = nodeInfo[2];
 
-                            pubTimeGuage.labels(pubTime).set(pubTime)
+                            blockTimeGauge.labels(blockTime).set(blockTime)
+                            blockHeightGauge.labels(blockHeight).set(blockHeight)
                         }
 
                     })
