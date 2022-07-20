@@ -36,7 +36,7 @@ const ACTIONS = {
     AddedNode: 0x03,
     RemovedNode: 0x04,
     LocatedNode: 0x05,
-    ImportedBlock: 0x06,
+    ImportedBlock: 0x06, //payload[1] [height, hash, blockTime, blockTimestamp, propagationTime]
     FinalizedBlock: 0x07,
     NodeStats: 0x08,
     NodeHardware: 0x09,
