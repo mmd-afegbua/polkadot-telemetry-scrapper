@@ -1,2 +1,29 @@
 # polkadot-telemetry-scrapper
-Reversed engineered scrapper that scrapes specified data from https://telemetry.polkadot.io, then it creates metrics from the streamed data.
+Reversed engineered scrapper that scrapes specified chain from https://telemetry.polkadot.io, then it creates metrics from the streamed data.
+
+## How to Run
+### Local
+#### Prerequisites
+1. docker daemon
+2. docker-compose
+
+* Clone repository
+```
+git clone https://github.com/mmd-afegbua/polkadot-telemetry-scrapper.git && cd polkadot-telemetry-scrapper
+```
+* Input your preferred chain
+
+* Run the scrapper on your local
+```
+node index.js
+```
+Your metrics will be available on http://localhost:8080/metrics
+
+* Start up prometheus, grafana and alert manager
+```
+docker-compose up
+```
+Prometheus endpoint will be available at http://localhost:9090.
+Grafana endpoint will be on http://localhost:3000. Default username: admin. password: admin.
+
+* Create a grafana test dashboard using the JSON file in `grafana/test.json`
