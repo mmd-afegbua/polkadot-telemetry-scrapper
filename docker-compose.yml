@@ -5,6 +5,8 @@ networks:
 volumes:
     prometheus_data: {}
     grafana_data: {}
+    alertmanager-data: {}
+
 services:
   prometheus:
     image: prom/prometheus:v2.20.1
@@ -18,5 +20,40 @@ services:
       - 9090:9090
     expose:
       - 9090
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:9.0.3
+    container_name: grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    expose:
+      - 3000
+    networks:
+      - monitoring
+
+  alertmanager:
+    image: prom/alertmanager:v0.24.0
+    container_name: alertmanager
+    volumes:
+      - "./alertmanager:/config"
+      - alertmanager-data:/data
+    command:
+      - '--config.file=/config/alertmanager.yml'
+      - '--log.level=debug'
+    restart: unless-stopped
+    ports:
+      - 9093:9093
+    expose:
+      - 9093
     networks:
       - monitoring
