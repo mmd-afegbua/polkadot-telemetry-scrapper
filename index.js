@@ -3,7 +3,8 @@ const express = require('express');
 const app = express();
 const WebSocket = require('ws');
 const register = new client.Registry();
-
+const PORT = process.env.PROT || 8080;
+require('dotenv').config()
 
 
 const blockTimeGauge = new client.Gauge({
@@ -23,7 +24,7 @@ const blockHeightGauge = new client.Gauge({
 register.registerMetric(blockHeightGauge)
 
 
-let chain = '0x91b171bb158e2d3848fa23a9f1c25182fb8e20313b2c1eb49219da7a70ce90c3';
+let chain = process.env.CHAIN;
 let socket = new WebSocket("wss://feed.telemetry.polkadot.io/feed");
 socket.binaryType = 'arraybuffer';
 const decoder = new TextDecoder('utf-8');
@@ -57,19 +58,18 @@ const ACTIONS = {
 
 
 function WebSocketTest() {
-    // return new Promise((resolve,reject) => {
         socket.onopen = () => {
             socket.send(`subscribe:${chain}`);
             socket.onmessage = message => {
                 const str = decoder.decode(message.data);
                 const data = deserialize(str);
 
-                const whatWeCareAbout = [
+                const desiredMetrics = [
                     ACTIONS.SubscribedTo,
                     ACTIONS.ImportedBlock
                 ];
                 data
-                    .filter(t => whatWeCareAbout.indexOf(t.action) > -1)
+                    .filter(t => desiredMetrics.indexOf(t.action) > -1)
                     .forEach(message => {
                         if (message.action == ACTIONS.ImportedBlock) {
                             const nodeInfo = message.payload[1];
@@ -114,6 +114,6 @@ app.get('/metrics', async (req, res) => {
 });
 
 // Start the Express server and listen to a port
-app.listen(8080, () => {
-    console.log('Server is running on http://localhost:8080, metrics are exposed on http://localhost:8080/metrics')
+app.listen(PORT, () => {
+    console.log("Server is running on http://localhost:%o, metrics are exposed on http://localhost:%i/metrics", PORT, PORT)
 });

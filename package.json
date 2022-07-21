@@ -1,5 +1,15 @@
 {
+  "name": "pokaldot-telemetry-scrapper",
+  "version": "1.0.0",
+  "description": "polkadot telemetry scrapper",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Momodu Afegbua",
+  "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "prom-client": "^14.0.1",
     "websocket": "^1.0.34",
