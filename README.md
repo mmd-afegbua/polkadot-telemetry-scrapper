@@ -27,7 +27,16 @@ npm run start
 ```
 Your metrics will be available on http://localhost:8080/metrics
 
+* (Optional) Configure prometheus to scrape your collator/validator if you have it exposed.
+add this to`prometheus/prometheus.yml`
+```
+  - job_name: 'collator'
+    static_configs:
+      - targets: ['<collator-endpoint:port>']
+```
+
 * Start up prometheus, grafana and alert manager
+
 ```
 docker-compose up
 ```
